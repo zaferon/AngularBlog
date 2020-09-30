@@ -1,0 +1,55 @@
+/* ArticlesComponent's private CSS styles */
+.flex-container{
+  display: flex;
+  background-color: rgb(237, 253, 253);
+  height: 75px;
+  width: 98%;
+  border: solid rgb(0, 94, 170) 1px;
+  padding: 10px;
+  border-radius: 25px;
+}
+
+.title{
+  display: flex;
+  justify-content: flex-start;
+}
+
+.dathAuth{
+  display: flex;
+  justify-content: flex-end;
+}
+
+.articles {
+    margin: 0 0 2em 0;
+    list-style-type: none;
+    padding: 0;
+    width: 15em;
+  }
+
+  .flex-container:hover {
+    color: #607D8B;
+    background-color: #DDD;
+    left: .1em;
+  }
+  
+  button {
+    background-color: #eee;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    cursor: hand;
+    font-family: Arial;
+  }
+  
+  button:hover {
+    background-color: #cfd8dc;
+  }
+  
+  button.delete {
+    position: relative;
+    left: 194px;
+    top: -32px;
+    background-color: gray !important;
+    color: white;
+  }

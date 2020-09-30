@@ -1,0 +1,14 @@
+<h2>Blog</h2>
+
+<div *ngfor="let article of articles">
+  <div class="flex-container">
+    <a routerLink="/detail/{{article.id}}">
+    <div class="title">
+      {{article.title}}
+    </div>
+    <div class="dateAuth">
+      {{article.author}} {{article.date}}
+    </div>
+    </a>
+  </div>
+</div>
