@@ -11,7 +11,7 @@ import { MessageService } from './message.service';
 @Injectable({ providedIn: 'root' })
 export class ArticleService {
 
-  private articlesUrl = 'api/articles';  // URL to web api
+  private articlesUrl = 'http://127.0.0.1:5000/articles';  // URL to web api
 
   httpOptions = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -23,7 +23,7 @@ export class ArticleService {
 
   /** GET articles from the server */
   getArticles(): Observable<Article[]> {
-    return this.http.get<Article[]>(this.articlesUrl)
+    return this.http.get<Article[]>(this.articlesUrl + "/all")
       .pipe(
         tap(_ => this.log('fetched articles')),
         catchError(this.handleError<Article[]>('getArticles', []))
@@ -31,25 +31,25 @@ export class ArticleService {
   }
 
   /** GET article by id. Return `undefined` when id not found */
-  getArticleNo404<Data>(id: number): Observable<Article> {
-    const url = `${this.articlesUrl}/?id=${id}`;
+  getArticleNo404<Data>(identification: number): Observable<Article> {
+    const url = `${this.articlesUrl}/?identification=${identification}`;
     return this.http.get<Article[]>(url)
       .pipe(
         map(articles => articles[0]), // returns a {0|1} element array
         tap(h => {
           const outcome = h ? `fetched` : `did not find`;
-          this.log(`${outcome} article id=${id}`);
+          this.log(`${outcome} article identification=${identification}`);
         }),
-        catchError(this.handleError<Article>(`getArticle id=${id}`))
+        catchError(this.handleError<Article>(`getArticle identification=${identification}`))
       );
   }
 
   /** GET article by id. Will 404 if id not found */
-  getArticle(id: number): Observable<Article> {
-    const url = `${this.articlesUrl}/${id}`;
+  getArticle(identification: number): Observable<Article> {
+    const url = `${this.articlesUrl}/${identification}`;
     return this.http.get<Article>(url).pipe(
-      tap(_ => this.log(`fetched article id=${id}`)),
-      catchError(this.handleError<Article>(`getArticle id=${id}`))
+      tap(_ => this.log(`fetched article identification=${identification}`)),
+      catchError(this.handleError<Article>(`getArticle identification=${identification}`))
     );
   }
 
@@ -71,19 +71,19 @@ export class ArticleService {
 
   /** POST: add a new article to the server */
   addArticle(article: Article): Observable<Article> {
-    return this.http.post<Article>(this.articlesUrl, article, this.httpOptions).pipe(
-      tap((newArticle: Article) => this.log(`added article w/ id=${newArticle.id}`)),
+    return this.http.post<Article>(this.articlesUrl + "/new", article, this.httpOptions).pipe(
+      tap((newArticle: Article) => this.log(`added article w/ identification=${newArticle.identification}`)),
       catchError(this.handleError<Article>('addArticle'))
     );
   }
 
   /** DELETE: delete the article from the server */
   deleteArticle(article: Article | number): Observable<Article> {
-    const id = typeof article === 'number' ? article : article.id;
-    const url = `${this.articlesUrl}/${id}`;
+    const identification = typeof article === 'number' ? article : article.identification;
+    const url = `${this.articlesUrl + "delete"}/${identification}`;
 
     return this.http.delete<Article>(url, this.httpOptions).pipe(
-      tap(_ => this.log(`deleted article id=${id}`)),
+      tap(_ => this.log(`deleted article identification=${identification}`)),
       catchError(this.handleError<Article>('deleteArticle'))
     );
   }
@@ -91,7 +91,7 @@ export class ArticleService {
   /** PUT: update the article on the server */
   updateArticle(article: Article): Observable<any> {
     return this.http.put(this.articlesUrl, article, this.httpOptions).pipe(
-      tap(_ => this.log(`updated article id=${article.id}`)),
+      tap(_ => this.log(`updated article identification=${article.identification}`)),
       catchError(this.handleError<any>('updateArticle'))
     );
   }

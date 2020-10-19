@@ -6,7 +6,7 @@ import { ArticleDetailComponent } from './article-detail/article-detail.componen
 
 const routes: Routes = [
   { path: '', redirectTo: '/articles', pathMatch: 'full' },
-  { path: 'detail/:id', component: ArticleDetailComponent },
+  { path: 'detail/:identification', component: ArticleDetailComponent },
   { path: 'articles', component: ArticlesComponent }
 ];
 

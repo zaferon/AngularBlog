@@ -1,8 +1,8 @@
 <h2>Blog</h2>
 
-<div *ngfor="let article of articles">
+<div *ngFor="let article of articles">
   <div class="flex-container">
-    <a routerLink="/detail/{{article.id}}">
+    <a routerLink="/detail/{{article.identification}}">
     <div class="title">
       {{article.title}}
     </div>
